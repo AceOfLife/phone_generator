@@ -7,13 +7,13 @@ interface GeneratedNumber {
   number: string;
 }
 
-interface ValidatedNumber {
-  number: string;
-  valid: boolean;
-  carrier: string;
-  line_type: string;
-  location: string;
-}
+// interface ValidatedNumber {
+//   number: string;
+//   valid: boolean;
+//   carrier: string;
+//   line_type: string;
+//   location: string;
+// }
 
 interface OptionType {
   value: string;
@@ -34,17 +34,17 @@ const statesList: OptionType[] = [
 function App() {
   const [selectedStates, setSelectedStates] = useState<OptionType[]>([]);
   const [numbers, setNumbers] = useState<GeneratedNumber[]>([]);
-  const [validated, setValidated] = useState<ValidatedNumber[]>([]);
+  // const [validated, setValidated] = useState<ValidatedNumber[]>([]);
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [validating, setValidating] = useState(false);
+  // const [validating, setValidating] = useState(false);
   const [message, setMessage] = useState("");
 
   const generateNumbers = async () => {
     setLoading(true);
     setMessage("");
     setNumbers([]);
-    setValidated([]);
+    // setValidated([]);
 
     try {
       const response = await axios.post('https://phone-generator.onrender.com/api/generate', {
@@ -87,29 +87,29 @@ function App() {
   };
 
   // 🔹 KEPT but not used in UI
-  const validateWithNumverify = async () => {
-    if (numbers.length === 0) return alert("Generate numbers first!");
+  // const validateWithNumverify = async () => {
+  //   if (numbers.length === 0) return alert("Generate numbers first!");
 
-    setValidating(true);
-    setMessage("Validating first 20 numbers with Numverify...");
+  //   setValidating(true);
+  //   setMessage("Validating first 20 numbers with Numverify...");
 
-    try {
-      const response = await axios.post('https://phone-generator.onrender.com/api/validate', {
-        numbers: numbers.map(n => n.number)
-      });
+  //   try {
+  //     const response = await axios.post('https://phone-generator.onrender.com/api/validate', {
+  //       numbers: numbers.map(n => n.number)
+  //     });
 
-      setValidated(response.data.results);
-      setMessage(response.data.note || "Validation completed");
-    } catch {
-      setMessage("❌ Validation failed");
-    } finally {
-      setValidating(false);
-    }
-  };
+  //     setValidated(response.data.results);
+  //     setMessage(response.data.note || "Validation completed");
+  //   } catch {
+  //     setMessage("❌ Validation failed");
+  //   } finally {
+  //     setValidating(false);
+  //   }
+  // };
 
-  const exportableNumbers = validated.filter(item => 
-    item.valid && item.line_type?.toLowerCase() !== 'landline'
-  );
+  // const exportableNumbers = validated.filter(item => 
+  //   item.valid && item.line_type?.toLowerCase() !== 'landline'
+  // );
 
   const exportAllGenerated = () => {
     if (numbers.length === 0) {
@@ -129,23 +129,23 @@ function App() {
     link.click();
   };
 
-  const exportNonLandline = () => {
-    if (exportableNumbers.length === 0) {
-      return alert("No valid non-landline numbers yet.");
-    }
+  // const exportNonLandline = () => {
+  //   if (exportableNumbers.length === 0) {
+  //     return alert("No valid non-landline numbers yet.");
+  //   }
 
-    const cleanData = exportableNumbers.map(item => ({
-      number: item.number
-    }));
+  //   const cleanData = exportableNumbers.map(item => ({
+  //     number: item.number
+  //   }));
 
-    const csv = Papa.unparse(cleanData);
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  //   const csv = Papa.unparse(cleanData);
+  //   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
 
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `valid_non_landline_numbers_${new Date().toISOString().slice(0,10)}.csv`;
-    link.click();
-  };
+  //   const link = document.createElement('a');
+  //   link.href = URL.createObjectURL(blob);
+  //   link.download = `valid_non_landline_numbers_${new Date().toISOString().slice(0,10)}.csv`;
+  //   link.click();
+  // };
 
   const copyNumber = (number: string) => {
     navigator.clipboard.writeText(number);
