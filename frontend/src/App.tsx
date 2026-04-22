@@ -47,7 +47,7 @@ function App() {
     setValidated([]);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/generate', {
+      const response = await axios.post('https://phone-generator.onrender.com/api/generate', {
         states: selectedStates.map(s => s.value),
         count: 1000
       });
@@ -68,7 +68,7 @@ function App() {
   const loadMore = async () => {
     setLoadingMore(true);
     try {
-      const response = await axios.post('http://localhost:5000/api/generate', {
+      const response = await axios.post('https://phone-generator.onrender.com/api/generate', {
         states: selectedStates.map(s => s.value),
         count: 1000
       });
@@ -94,7 +94,7 @@ function App() {
     setMessage("Validating first 20 numbers with Numverify...");
 
     try {
-      const response = await axios.post('http://localhost:5000/api/validate', {
+      const response = await axios.post('https://phone-generator.onrender.com/api/validate', {
         numbers: numbers.map(n => n.number)
       });
 
